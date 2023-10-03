@@ -18,6 +18,10 @@ public class AutoEntity {
     @Column(name = "cargoQuantity", nullable = false)
     private Double cargoQuantity;
 
+    @ManyToOne()
+    @JoinColumn(name = "cargotype_id")
+    private CargoTypeEntity cargoType;
+
     public AutoEntity() {
 
     }

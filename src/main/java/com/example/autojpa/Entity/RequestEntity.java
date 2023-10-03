@@ -25,8 +25,13 @@ public class RequestEntity {
     @JoinColumn(name = "cargotype_id")
     private CargoTypeEntity cargoType;
 
-    @Column
+    @Column(name = "isDone")
     private boolean isDone = false;
+
+    @Column(name = "experience")
+    private Integer experience;
+
+
     public RequestEntity() {
     }
 }

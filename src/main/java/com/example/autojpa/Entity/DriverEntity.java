@@ -1,9 +1,12 @@
 package com.example.autojpa.Entity;
 
+import com.example.autojpa.Service.RepairRequestService;
+import com.example.autojpa.Service.impl.RepairRequestServiceImpl;
 import jakarta.annotation.Nullable;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import org.springframework.beans.factory.annotation.Autowired;
 
 @Entity
 @Data
@@ -32,11 +35,9 @@ public class DriverEntity {
     @JoinColumn(name = "request_id")
     private RequestEntity request;
 
+
     public DriverEntity() {
 
     }
 
-    public void createRepairRequest(){
-
-    }
 }
