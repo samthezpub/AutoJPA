@@ -11,6 +11,8 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
+import java.util.Objects;
+import java.util.Random;
 
 @Component
 public class Dispatch {
@@ -46,9 +48,15 @@ public class Dispatch {
         requestService.updateRequest(request);
     }
 
-    private AutoEntity getAutoWithWeightNeeded(RequestEntity request){
+    void takeAutoSetNotFree(AutoEntity auto)
+    {
+        auto.setFree(false);
+        autoService.updateAuto(auto);
+    }
+
+    private AutoEntity getAutoWithWeightNeededAndFree(RequestEntity request){
         AutoEntity auto;
-        auto = autoService.findAutoEntityByWeight(request.getCargoQuantity());
+        auto = autoService.findAutoEntityByWeightAndFree(request.getCargoQuantity());
 
         return auto;
     }
@@ -77,7 +85,7 @@ public class Dispatch {
         DriverEntity neededDriver = getDriverWithExperienceNeededAndFree(notDoneRequest);
 
         // Находим авто с нужным весом
-        AutoEntity neededAuto = getAutoWithWeightNeeded(notDoneRequest);
+        AutoEntity neededAuto = getAutoWithWeightNeededAndFree(notDoneRequest);
 
         //Устанавливаем водителю нужное авто
         neededDriver.setAuto(neededAuto);
@@ -86,11 +94,48 @@ public class Dispatch {
         setDriverForRequest(notDoneRequest, neededDriver);
 
         driverService.updateDriver(neededDriver);
+        takeAutoSetNotFree(neededAuto);
         takeRequestSetNotFree(notDoneRequest);
     }
 
-    public void driverDoneRequest(){
+    private void setDoneRequest(RequestEntity request){
+        request.setDone(true);
+        requestService.updateRequest(request);
+    }
 
+    private void setAutoFree(AutoEntity auto){
+        auto.setFree(true);
+        autoService.updateAuto(auto);
+    }
+
+    private void PAYPAY(DriverEntity driver){
+        Random random = new Random();
+
+        double payday = driver.getMoney() + random.nextDouble(100, 20000);
+        driver.setMoney(payday);
+
+        driverService.updateDriver(driver);
+    }
+
+    public void driverDoneRequest(Long request_id){
+        DriverEntity driver;
+        try {
+            driver = driverService.findDriverEntityByRequestId(request_id)
+                    .orElseThrow(() -> new NotFindException("Нет водителя с таким запросом!"));
+        } catch (NotFindException e) {
+            throw new RuntimeException(e);
+        }
+
+        // Устанавливаем запрос как выполненный
+        setDoneRequest(driver.getRequest());
+
+        // Освобождаемся от всего
+        driver.setRequest(null);
+        setAutoFree(driver.getAuto());
+        driver.setAuto(null);
+        driver.setFree(true);
+
+        PAYPAY(driver);
     }
 
 };

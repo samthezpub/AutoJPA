@@ -18,6 +18,9 @@ public interface DriverRepository extends JpaRepository<DriverEntity, Long> {
     @Query("SELECT d FROM DriverEntity d WHERE d.experience>=:experience AND d.isFree=true")
     Optional<DriverEntity> findIdByExperienceAndFree(@Param("experience") Integer experience);
 
+    @Query("SELECT d FROM DriverEntity d WHERE d.request.id=:request_id")
+    Optional<DriverEntity> findDriverEntityByRequestId(@Param("request_id") Long request_id);
+
     @Query("UPDATE DriverEntity d SET d.experience=:experience WHERE d.id=:id")
     DriverEntity updateDriverExperienceById(@Param("id") Long id, @Param("experience") Integer experience);
 

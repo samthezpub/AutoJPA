@@ -12,6 +12,7 @@ public class AutoJpaApplication {
        Dispatch dispatch = new Dispatch(context);
 
        dispatch.findRequestAlgorithm();
+
     }
 
 }

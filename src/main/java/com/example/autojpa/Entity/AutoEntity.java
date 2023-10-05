@@ -22,6 +22,8 @@ public class AutoEntity {
     @JoinColumn(name = "cargotype_id")
     private CargoTypeEntity cargoType;
 
+    @Column(name = "is_free")
+    private boolean isFree;
 
     public AutoEntity() {
 

@@ -43,6 +43,11 @@ public class DriverServiceImpl implements DriverService {
     }
 
     @Override
+    public Optional<DriverEntity> findDriverEntityByRequestId(Long request_id) {
+        return driverRepository.findDriverEntityByRequestId(request_id);
+    }
+
+    @Override
     @Transactional
     public DriverEntity updateDriver(DriverEntity driver) {
         return driverRepository.save(driver);

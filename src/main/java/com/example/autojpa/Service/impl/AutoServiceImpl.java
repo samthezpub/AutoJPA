@@ -30,10 +30,10 @@ public class AutoServiceImpl implements AutoService {
     }
 
     @Override
-    public AutoEntity findAutoEntityByWeight(Double weight) {
+    public AutoEntity findAutoEntityByWeightAndFree(Double weight) {
         try {
-            if (autoRepository.findAutoEntityByWeight(weight).get().size() > 0){
-                return autoRepository.findAutoEntityByWeight(weight)
+            if (autoRepository.findAutoEntityByWeightAndFree(weight).get().size() > 0){
+                return autoRepository.findAutoEntityByWeightAndFree(weight)
                         .get()
                         .get(0);
             }

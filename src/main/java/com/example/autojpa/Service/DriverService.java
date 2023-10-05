@@ -15,7 +15,7 @@ public interface DriverService {
     List<DriverEntity> findAll();
     Optional<DriverEntity> findById(Long id);
     Optional<DriverEntity> findDriverByExperienceAndFree(@Param("experience")Integer experience);
-
+    Optional<DriverEntity> findDriverEntityByRequestId(@Param("request_id") Long request_id);
 
     DriverEntity updateDriver(DriverEntity driver);
     DriverEntity updateDriverExperienceById(Long id, Integer experience);

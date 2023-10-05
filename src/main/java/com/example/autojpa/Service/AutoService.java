@@ -14,7 +14,7 @@ public interface AutoService {
 
     Optional<AutoEntity> findById(Long id);
 
-    AutoEntity findAutoEntityByWeight(@Param("weight") Double weight) throws NotFindException;
+    AutoEntity findAutoEntityByWeightAndFree(@Param("weight") Double weight) throws NotFindException;
 
     AutoEntity updateAuto(AutoEntity auto);
     void updateCargoTypeById(Long id, CargoTypeEntity cargoType);
