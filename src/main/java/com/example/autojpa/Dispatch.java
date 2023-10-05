@@ -2,10 +2,13 @@ package com.example.autojpa;
 
 import com.example.autojpa.Entity.AutoEntity;
 import com.example.autojpa.Entity.DriverEntity;
+import com.example.autojpa.Entity.RepairRequestEntity;
 import com.example.autojpa.Entity.RequestEntity;
 import com.example.autojpa.Exception.NotFindException;
+import com.example.autojpa.Service.RepairRequestService;
 import com.example.autojpa.Service.impl.AutoServiceImpl;
 import com.example.autojpa.Service.impl.DriverServiceImpl;
+import com.example.autojpa.Service.impl.RepairRequestServiceImpl;
 import com.example.autojpa.Service.impl.RequestServiceImpl;
 import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Component;
@@ -20,11 +23,13 @@ public class Dispatch {
     private final AutoServiceImpl autoService;
 
     private final RequestServiceImpl requestService;
+    private final RepairRequestServiceImpl repairRequestService;
 
     public Dispatch(ApplicationContext applicationContext) {
         this.driverService = applicationContext.getBean(DriverServiceImpl.class);
         this.requestService = applicationContext.getBean(RequestServiceImpl.class);
         this.autoService = applicationContext.getBean(AutoServiceImpl.class);
+        this.repairRequestService = applicationContext.getBean(RepairRequestServiceImpl.class);
     }
 
 
@@ -136,6 +141,23 @@ public class Dispatch {
         driver.setFree(true);
 
         PAYPAY(driver);
+    }
+
+    public void doRepairRequest(Long driver_id){
+        RepairRequestEntity repairRequest = new RepairRequestEntity();
+        DriverEntity driver = new DriverEntity();
+        try {
+            driver = driverService.findById(driver_id)
+                    .orElseThrow(()->new NotFindException("Не найден такой водитель!"));
+        } catch (NotFindException e) {
+            throw new RuntimeException(e);
+        }
+
+
+        repairRequest.setAuto(driver.getAuto());
+        repairRequest.setDriver(driver);
+
+        repairRequestService.addRequest(repairRequest);
     }
 
 };
