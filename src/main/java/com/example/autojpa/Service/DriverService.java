@@ -14,12 +14,16 @@ public interface DriverService {
     DriverEntity saveDriver(DriverEntity driver);
     List<DriverEntity> findAll();
     Optional<DriverEntity> findById(Long id);
-    Optional<DriverEntity> findDriverByExperience(@Param("experience")Integer experience);
+    Optional<DriverEntity> findDriverByExperienceAndFree(@Param("experience")Integer experience);
+
+
     DriverEntity updateDriver(DriverEntity driver);
     DriverEntity updateDriverExperienceById(Long id, Integer experience);
     DriverEntity updateDriverExperienceSetOnePlusById(@Param("id") Long id);
     DriverEntity updateDriverAutoById(AutoEntity auto, Long id);
     DriverEntity updateDriverRequestById(@Param("auto") RequestEntity request, @Param("id") Long id);
     void updateDriverDoneDestination(@Param("id")Long id);
+    void updateDriverMoneyById(@Param("id")Long id, @Param("money") double money);
     void deleteById(Long id);
+    void reportArrival(Long driverId);
 }

@@ -10,6 +10,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.Random;
 
 @Service
 public class DriverServiceImpl implements DriverService {
@@ -35,9 +36,10 @@ public class DriverServiceImpl implements DriverService {
         return driverRepository.findById(id);
     }
 
+
     @Override
-    public Optional<DriverEntity> findDriverByExperience(Integer experience) {
-        return  driverRepository.findIdByExperience(experience);
+    public Optional<DriverEntity> findDriverByExperienceAndFree(Integer experience) {
+        return  driverRepository.findIdByExperienceAndFree(experience);
     }
 
     @Override
@@ -72,11 +74,35 @@ public class DriverServiceImpl implements DriverService {
     public void updateDriverDoneDestination(Long id) {
         driverRepository.updateRequestIsDone(id);
         driverRepository.updateDriverDoneDestination(id);
+
+        Random random = new Random();
+        updateDriverMoneyById(id, random.nextDouble(100, 2000));
+    }
+
+    @Override
+    public void updateDriverMoneyById(Long id, double money) {
+        driverRepository.updateDriverMoneyById(id, money);
     }
 
     @Override
     public void deleteById(Long id) {
         driverRepository.deleteById(id);
+    }
+
+    @Override
+    public void reportArrival(Long driverId) {
+        Optional<DriverEntity> optionalDriver = driverRepository.findById(driverId);
+
+        if (optionalDriver.isPresent()){
+            DriverEntity driver = optionalDriver.get();
+
+            driver.setRequest(null);
+            driver.setAuto(null);
+
+            Random random = new Random();
+            driver.setMoney(driver.getMoney() + random.nextDouble(200, 2000));
+        }
+
     }
 
 

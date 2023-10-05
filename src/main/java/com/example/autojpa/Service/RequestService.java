@@ -14,7 +14,7 @@ public interface RequestService {
     RequestEntity saveRequest(RequestEntity request);
 
     Optional<RequestEntity> findById(Long id);
-    Optional<List<RequestEntity>> findAllNotDoneRequests();
+    Optional<List<RequestEntity>> findAllNotDoneRequestsAndFree();
 
     RequestEntity updateRequest(RequestEntity request);
 

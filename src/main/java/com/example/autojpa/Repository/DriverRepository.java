@@ -15,8 +15,8 @@ import java.util.Optional;
 @Repository
 public interface DriverRepository extends JpaRepository<DriverEntity, Long> {
 
-    @Query("SELECT d FROM DriverEntity d WHERE d.experience>=:experience")
-    Optional<DriverEntity> findIdByExperience(@Param("experience") Integer experience);
+    @Query("SELECT d FROM DriverEntity d WHERE d.experience>=:experience AND d.isFree=true")
+    Optional<DriverEntity> findIdByExperienceAndFree(@Param("experience") Integer experience);
 
     @Query("UPDATE DriverEntity d SET d.experience=:experience WHERE d.id=:id")
     DriverEntity updateDriverExperienceById(@Param("id") Long id, @Param("experience") Integer experience);
@@ -40,4 +40,8 @@ public interface DriverRepository extends JpaRepository<DriverEntity, Long> {
     @Query("UPDATE RequestEntity r SET r.isDone=true WHERE r.id=(SELECT d.request.id FROM DriverEntity d WHERE d.id=:id)")
     void updateRequestIsDone(@Param("id") Long id);
 
+    @Modifying
+    @Transactional
+    @Query("UPDATE DriverEntity d SET d.money= d.money + :money WHERE d.id=:id")
+    void updateDriverMoneyById(@Param("id")Long id, @Param("money") double money);
 }

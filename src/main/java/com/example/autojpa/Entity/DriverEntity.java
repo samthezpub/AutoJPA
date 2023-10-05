@@ -35,6 +35,9 @@ public class DriverEntity {
     @JoinColumn(name = "request_id")
     private RequestEntity request;
 
+    @Column(name = "is_free")
+    private boolean isFree;
+
 
     public DriverEntity() {
 

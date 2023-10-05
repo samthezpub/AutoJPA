@@ -28,8 +28,8 @@ public class RequestServiceImpl implements RequestService {
     }
 
     @Override
-    public Optional<List<RequestEntity>> findAllNotDoneRequests() {
-        return requestRepository.findAllNotDoneRequests();
+    public Optional<List<RequestEntity>> findAllNotDoneRequestsAndFree() {
+        return requestRepository.findAllNotDoneRequestsAndFree();
     }
 
     @Override

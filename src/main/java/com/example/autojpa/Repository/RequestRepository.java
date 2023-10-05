@@ -11,8 +11,8 @@ import java.util.Optional;
 
 @Repository
 public interface RequestRepository extends JpaRepository<RequestEntity, Long> {
-    @Query("SELECT r FROM RequestEntity r  WHERE r.isDone=false")
-   Optional<List<RequestEntity>> findAllNotDoneRequests();
+    @Query("SELECT r FROM RequestEntity r  WHERE r.isDone=false AND r.isFree=true")
+   Optional<List<RequestEntity>> findAllNotDoneRequestsAndFree();
 
 
 }

@@ -2,6 +2,7 @@ package com.example.autojpa.Service.impl;
 
 import com.example.autojpa.Entity.AutoEntity;
 import com.example.autojpa.Entity.CargoTypeEntity;
+import com.example.autojpa.Exception.NotFindException;
 import com.example.autojpa.Repository.AutoRepository;
 import com.example.autojpa.Service.AutoService;
 import org.springframework.stereotype.Service;
@@ -26,6 +27,22 @@ public class AutoServiceImpl implements AutoService {
     @Override
     public Optional<AutoEntity> findById(Long id) {
         return autoRepository.findById(id);
+    }
+
+    @Override
+    public AutoEntity findAutoEntityByWeight(Double weight) {
+        try {
+            if (autoRepository.findAutoEntityByWeight(weight).get().size() > 0){
+                return autoRepository.findAutoEntityByWeight(weight)
+                        .get()
+                        .get(0);
+            }
+            throw new NotFindException("Машинка с такой грузоподъемностью не найдена!");
+
+        } catch (NotFindException e) {
+            throw new RuntimeException(e);
+        }
+
     }
 
     @Override

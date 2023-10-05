@@ -22,6 +22,7 @@ public class AutoEntity {
     @JoinColumn(name = "cargotype_id")
     private CargoTypeEntity cargoType;
 
+
     public AutoEntity() {
 
     }

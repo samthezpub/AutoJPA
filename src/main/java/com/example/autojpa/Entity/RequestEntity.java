@@ -28,6 +28,9 @@ public class RequestEntity {
     @Column(name = "isDone")
     private boolean isDone = false;
 
+    @Column(name = "isFree")
+    private boolean isFree = false;
+
     @Column(name = "experience")
     private Integer experience;
 

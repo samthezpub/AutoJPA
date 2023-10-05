@@ -11,7 +11,7 @@ public class AutoJpaApplication {
        ApplicationContext context =  SpringApplication.run(AutoJpaApplication.class, args);
        Dispatch dispatch = new Dispatch(context);
 
-       dispatch.setDriverForRequest();
+       dispatch.findRequestAlgorithm();
     }
 
 }
