@@ -7,6 +7,7 @@ import com.example.autojpa.Repository.AutoRepository;
 import com.example.autojpa.Service.AutoService;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -27,6 +28,11 @@ public class AutoServiceImpl implements AutoService {
     @Override
     public Optional<AutoEntity> findById(Long id) {
         return autoRepository.findById(id);
+    }
+
+    @Override
+    public List<AutoEntity> findAll() {
+        return autoRepository.findAll();
     }
 
     @Override

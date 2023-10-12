@@ -5,31 +5,37 @@ import com.example.autojpa.Entity.DriverEntity;
 import com.example.autojpa.Entity.RepairRequestEntity;
 import com.example.autojpa.Entity.RequestEntity;
 import com.example.autojpa.Exception.NotFindException;
-import com.example.autojpa.Service.RepairRequestService;
 import com.example.autojpa.Service.impl.AutoServiceImpl;
 import com.example.autojpa.Service.impl.DriverServiceImpl;
 import com.example.autojpa.Service.impl.RepairRequestServiceImpl;
 import com.example.autojpa.Service.impl.RequestServiceImpl;
-import org.springframework.context.ApplicationContext;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
-import java.util.Objects;
 import java.util.Random;
 
 @Component
 public class Dispatch {
+
+
+    @Autowired
     private final DriverServiceImpl driverService;
+
+    @Autowired
     private final AutoServiceImpl autoService;
 
+    @Autowired
     private final RequestServiceImpl requestService;
+
+    @Autowired
     private final RepairRequestServiceImpl repairRequestService;
 
-    public Dispatch(ApplicationContext applicationContext) {
-        this.driverService = applicationContext.getBean(DriverServiceImpl.class);
-        this.requestService = applicationContext.getBean(RequestServiceImpl.class);
-        this.autoService = applicationContext.getBean(AutoServiceImpl.class);
-        this.repairRequestService = applicationContext.getBean(RepairRequestServiceImpl.class);
+    public Dispatch(DriverServiceImpl driverService, AutoServiceImpl autoService, RequestServiceImpl requestService, RepairRequestServiceImpl repairRequestService) {
+        this.driverService = driverService;
+        this.autoService = autoService;
+        this.requestService = requestService;
+        this.repairRequestService = repairRequestService;
     }
 
 
@@ -48,12 +54,12 @@ public class Dispatch {
         return requests.get(0);
     }
 
-    void takeRequestSetNotFree(RequestEntity request){
+    private void takeRequestSetNotFree(RequestEntity request){
         request.setFree(false);
         requestService.updateRequest(request);
     }
 
-    void takeAutoSetNotFree(AutoEntity auto)
+    private void takeAutoSetNotFree(AutoEntity auto)
     {
         auto.setFree(false);
         autoService.updateAuto(auto);

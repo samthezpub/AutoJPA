@@ -6,6 +6,7 @@ import com.example.autojpa.Exception.NotFindException;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -13,6 +14,8 @@ public interface AutoService {
     AutoEntity saveAuto(AutoEntity auto);
 
     Optional<AutoEntity> findById(Long id);
+
+    List<AutoEntity> findAll();
 
     AutoEntity findAutoEntityByWeightAndFree(@Param("weight") Double weight) throws NotFindException;
 
