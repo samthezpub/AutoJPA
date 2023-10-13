@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+
+    <table>
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Destination</th>
+                <th>Experience</th>
+                <th>cargoType</th>
+                <th>cargoQuantity</th>
+                <th>done</th>
+                <th>Free</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr th:each="request : ${requests}">
+                <td th:text="${request.id}"></td>
+                <td th:text="${request.destination.name}"></td>
+                <td th:text="${request.experience}"></td>
+                <td th:text="${request.cargoType.name}"></td>
+                <td th:text="${request.cargoQuantity}"></td>
+                <td th:text="*{request.done}"></td>
+                <td th:text="*{request.free}"></td>
+
+
+
+                <td><a th:href="@{get/{id}(id=${request.getId()})}">Show</a></td>
+                <td><a th:href="@{edit/{id}(id=${request.getId()})}">Edit</a></td>
+                <td><a th:href="@{delete/{id}(id=${request.getId()})}">Delete</a></td>
+            </tr>
+        </tbody>
+    </table>
+    <a th:href="@{add}">Add</a>
+</body>
+</html>

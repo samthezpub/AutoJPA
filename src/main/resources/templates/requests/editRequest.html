@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<form th:action="@{/requests/edit/save}" th:object="${request}" method="post">
+    <input type="hidden" name="id" th:value="*{id}">
+
+
+
+    <label>Experience</label>
+    <input th:field="*{experience}">
+
+    <label>Destination</label>
+    <select  th:field="*{destination}">
+        <option th:each="destination : ${destinations}" th:value="${destination.id}" th:text="${destination.name}"></option>
+    </select>
+
+    <label>type</label>
+    <select  th:field="*{cargoType}">
+        <option th:each="type : ${types}" th:value="${type.id}" th:text="${type.name}"></option>
+    </select>
+
+    <label>done</label>
+    <select th:field="*{done}">
+        <option value="true">True</option>
+        <option value="false">False</option>
+    </select>
+
+    <label>free</label>
+    <select th:field="*{free}">
+        <option value="true">True</option>
+        <option value="false">False</option>
+    </select>
+
+    <input type="submit">
+</form>
+</body>
+</html>

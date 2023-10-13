@@ -16,7 +16,9 @@
     <input th:field="*{experience}">
 
     <label>Request</label>
-    <input th:field="*{request}">
+    <select  th:field="*{request}">
+        <option th:each="request : ${requests}" th:value="${request.id}" th:text="${request}"></option>
+    </select>
 
     <label>Auto</label>
     <select  th:field="*{auto}">

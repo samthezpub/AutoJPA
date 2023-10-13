@@ -20,4 +20,12 @@ public class DestinationEntity {
     public DestinationEntity() {
 
     }
+
+    @Override
+    public String toString() {
+        return "DestinationEntity{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                '}';
+    }
 }

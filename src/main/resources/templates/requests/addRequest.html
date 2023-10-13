@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+    <form th:action="@{add/save}" th:object="${request}" method="post">
+        <label>Name</label>
+
+        <select th:field="*{destination}">
+            <option th:each="destination : ${destinations}" th:text="${destination.name}" th:value="${destination.id}"></option>
+        </select>
+
+        <label>Experience</label>
+        <input th:field="*{experience}">
+
+        <label>cargoType</label>
+        <select th:field="*{cargoType}">
+            <option th:each="type : ${types}" th:text="${type.name}" th:value="${type.id}"></option>
+        </select>
+
+        <label>cargoQuantity</label>
+        <input th:field="*{cargoQuantity}">
+
+
+        <input type="submit">
+    </form>
+</body>
+</html>

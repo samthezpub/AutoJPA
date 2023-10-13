@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<table>
+    <thead>
+    <tr>
+        <th>ID</th>
+        <th>destination</th>
+        <th>Experience</th>
+        <th>cargoType</th>
+        <th>cargoQuantity</th>
+        <th>done</th>
+        <th>Free</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:object="${request}">
+        <td th:text="*{id}"></td>
+        <td th:text="*{destination.name}"></td>
+        <td th:text="*{experience}"></td>
+        <td th:text="*{cargoType.name}"></td>
+        <td th:text="*{cargoQuantity}"></td>
+        <td th:text="*{done}"></td>
+        <td th:text="*{free}"></td>
+
+        <td><a th:href="@{delete/{id}(id=${request.getId()})}">Delete</a></td>
+    </tr>
+    </tbody>
+</table>
+</body>
+</html>
