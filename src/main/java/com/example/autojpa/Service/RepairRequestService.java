@@ -13,7 +13,9 @@ public interface RepairRequestService {
 
     RepairRequestEntity addRequest(RepairRequestEntity request);
     List<RepairRequestEntity> findAll();
+    Optional<RepairRequestEntity> findById(long id);
     RepairRequestEntity updateRequest(RepairRequestEntity request);
     void deleteRequestById(Long id);
+
 
 }

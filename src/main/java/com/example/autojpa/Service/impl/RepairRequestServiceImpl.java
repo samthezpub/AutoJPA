@@ -6,6 +6,7 @@ import com.example.autojpa.Service.RepairRequestService;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class RepairRequestServiceImpl implements RepairRequestService {
@@ -23,6 +24,11 @@ public class RepairRequestServiceImpl implements RepairRequestService {
     @Override
     public List<RepairRequestEntity> findAll() {
         return repairRequestRepository.findAll();
+    }
+
+    @Override
+    public Optional<RepairRequestEntity> findById(long id) {
+        return repairRequestRepository.findById(id);
     }
 
     @Override
