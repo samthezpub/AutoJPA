@@ -12,11 +12,13 @@ import java.util.Optional;
 @Service
 public interface RequestService {
     RequestEntity saveRequest(RequestEntity request);
-
+    List<RequestEntity> findAll();
     Optional<RequestEntity> findById(Long id);
     Optional<List<RequestEntity>> findAllNotDoneRequestsAndFree();
 
     RequestEntity updateRequest(RequestEntity request);
 
     void deleteById(Long id);
+
+
 }

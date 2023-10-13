@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<table>
+    <thead>
+    <tr>
+        <th>ID</th>
+        <th>Name</th>
+        <th>Experience</th>
+        <th>Money</th>
+        <th>Request</th>
+        <th>Auto</th>
+        <th>Free</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:object="${driver}">
+        <td th:text="*{id}"></td>
+        <td th:text="*{name}"></td>
+        <td th:text="*{experience}"></td>
+        <td th:text="*{money}"></td>
+        <td th:if="*{request == null}">no</td>
+        <td th:if="*{request != null}">
+            <a th:href="@{/requests/get/{request}(request=${driver.request.id})}">View</a>
+        </td>
+
+        <td th:if="*{auto == null}">no</td>
+        <td th:if="*{auto != null}">
+            <a th:href="@{/cars/get/{car}(car=${driver.auto.id})}">View</a>
+        </td>
+        <td th:text="*{free}"></td>
+
+        <td><a th:href="@{delete/{id}(id=${driver.getId()})}">Delete</a></td>
+    </tr>
+    </tbody>
+</table>
+</body>
+</html>

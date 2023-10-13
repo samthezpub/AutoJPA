@@ -5,9 +5,24 @@
     <title>Title</title>
 </head>
 <body>
-    <span th:text="${car.get().getId()}"></span>
-    <span th:text="${car.get().getCargoType()}"></span>
-    <span th:text="${car.get().getCargoQuantity()}"></span>
-    <span th:text="${car.get().isFree()}"></span>
+    <table>
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>CargoType</th>
+                <th>CargoQuantity</th>
+                <th>isFree</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td th:text="${car.get().getId()}"></td>
+                <td th:text="${car.get().getCargoType().getName()}"></td>
+                <td th:text="${car.get().getCargoQuantity()}"></td>
+                <td th:text="${car.get().isFree()}"></td>
+<!--                <td><a th:href="@{/cars/get}">edit</a></td>-->
+            </tr>
+        </tbody>
+    </table>
 </body>
 </html>

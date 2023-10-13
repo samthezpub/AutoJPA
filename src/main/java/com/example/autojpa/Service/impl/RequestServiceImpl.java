@@ -3,6 +3,7 @@ package com.example.autojpa.Service.impl;
 import com.example.autojpa.Entity.RequestEntity;
 import com.example.autojpa.Repository.RequestRepository;
 import com.example.autojpa.Service.RequestService;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -20,6 +21,11 @@ public class RequestServiceImpl implements RequestService {
     @Override
     public RequestEntity saveRequest(RequestEntity request) {
         return requestRepository.save(request);
+    }
+
+    @Override
+    public List<RequestEntity> findAll() {
+        return requestRepository.findAll(Sort.by(Sort.Direction.ASC, "id"));
     }
 
     @Override

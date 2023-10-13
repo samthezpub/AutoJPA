@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<form th:action="@{/drivers/edit/save}" th:object="${driver}" method="post">
+    <input type="hidden" name="id" th:value="*{id}">
+
+
+    <label>Name</label>
+    <input th:field="*{name}">
+
+    <label>Experience</label>
+    <input th:field="*{experience}">
+
+    <label>Request</label>
+    <input th:field="*{request}">
+
+    <label>Auto</label>
+    <select  th:field="*{auto}">
+        <option th:each="auto : ${autos}" th:value="${auto.id}" th:text="${auto}"></option>
+    </select>
+
+    <label>Money</label>
+    <input th:field="*{money}">
+
+    <label>IsFree</label>
+    <input th:field="*{free}">
+
+    <input type="submit">
+</form>
+</body>
+</html>

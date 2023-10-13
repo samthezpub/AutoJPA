@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://thymeleaf.org">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
@@ -10,6 +10,28 @@
     <li th:each="car : ${cars}">
         <span th:text="${car}"></span>
     </li>
+
+    <table>
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>CargoType</th>
+                <th>CargoQuantity</th>
+                <th>isFree</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr th:each="car : ${cars}">
+                <td th:text="${car.getId()}"></td>
+                <td th:text="${car.getCargoType().getName()}"></td>
+                <td th:text="${car.getCargoQuantity()}"></td>
+                <td th:text="${car.isFree()}"></td>
+                <td><a th:href="@{get/{id}(id=${car.getId()})}">Show</a></td>
+                <td><a th:href="@{edit/{id}(id=${car.getId()})}">Edit</a></td>
+                <td><a th:href="@{delete/{id}(id=${car.getId()})}">Delete</a></td>
+            </tr>
+        </tbody>
+    </table>
 </ul>
 </body>
 </html>

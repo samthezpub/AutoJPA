@@ -1,10 +1,12 @@
 package com.example.autojpa.Controller;
 
+import com.example.autojpa.Entity.AutoEntity;
 import com.example.autojpa.Service.impl.AutoServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.view.RedirectView;
 
 @Controller
 @RequestMapping("/cars")
@@ -35,11 +37,45 @@ public class AutoController {
         return "cars/getCarById";
     }
 
-    @RequestMapping(value = "add", method = RequestMethod.POST)
-    @ResponseBody
-    public String addCars(Model model) {
-        model.addAttribute("cars", autoService.findAll());
+    @GetMapping("/add")
+    public String createAuto(Model model) {
+        model.addAttribute("car", new AutoEntity());
+        return "cars/addCar";
+    }
 
-        return "get";
+    @PostMapping("/add/save")
+    public RedirectView addSaveAuto(@ModelAttribute AutoEntity auto) {
+        auto.setFree(true);
+        autoService.saveAuto(auto);
+
+        return new RedirectView("/cars/get");
+    }
+
+    @GetMapping("/edit/{id}")
+    public String editAuto(Model model, @PathVariable long id){
+        model.addAttribute("car", autoService.findById(id).get());
+
+        return "cars/editAuto";
+    }
+
+    @PostMapping("/edit/save")
+    public RedirectView editSaveAuto(@ModelAttribute AutoEntity auto) {
+
+        AutoEntity existAuto = autoService.findById(auto.getId()).orElseThrow(RuntimeException::new);
+        existAuto.setCargoType(auto.getCargoType());
+        existAuto.setCargoQuantity(auto.getCargoQuantity());
+        existAuto.setFree(auto.isFree());
+
+        autoService.updateAuto(existAuto);
+
+        return new RedirectView("/cars/get");
+    }
+
+    @GetMapping(value = "/delete/{id}")
+    public RedirectView deleteCar(@PathVariable("id") long id){
+        autoService.deleteById(id);
+
+
+        return new RedirectView("/cars/get");
     }
 }

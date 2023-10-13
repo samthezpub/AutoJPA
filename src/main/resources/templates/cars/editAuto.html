@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<form th:action="@{/cars/edit/save}" th:object="${car}" method="post">
+    <input type="hidden" name="id" th:value="*{id}">
+
+
+    <label>CargoType</label>
+    <select th:field="*{cargoType}">
+        <option value="1">DANGEROUS</option>
+        <option value="2">General</option>
+        <option value="3">Bulk</option>
+        <option value="4">Liquid</option>
+    </select>
+
+    <label>CargoQuantity</label>
+    <input th:field="*{cargoQuantity}">
+
+    <label>IsFree</label>
+    <select th:field="*{free}">
+        <option value="true">True</option>
+        <option value="false">False</option>
+    </select>
+
+    <input type="submit">
+</form>
+</body>
+</html>
