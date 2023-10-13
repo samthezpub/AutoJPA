@@ -20,4 +20,12 @@ public class CargoTypeEntity {
     public CargoTypeEntity() {
 
     }
+
+    @Override
+    public String toString() {
+        return "CargoTypeEntity{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                '}';
+    }
 }
