@@ -1,10 +1,19 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:sec="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="UTF-8">
     <title>Hello</title>
 </head>
 <body>
+    <a th:href="@{/cars/get}">Cars</a>
+    <a th:href="@{/drivers/get}">Driver</a>
+    <a th:href="@{/requests/get}">Requests</a>
+    <a th:href="@{/repair/get}">Repair requests</a>
 
+    <h1 th:inline="text">Hello<span th:remove="tag" sec:authentication="name">thymeleaf</span>!</h1>
+    <a th:href="@{/user/registration}">Register</a>
+    <form th:action="@{/logout}" method="post">
+        <input type="submit" value="Sign Out"/>
+    </form>
 </body>
 </html>

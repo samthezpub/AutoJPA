@@ -9,8 +9,6 @@ public class AutoJpaApplication {
 
     public static void main(String[] args) {
        SpringApplication.run(AutoJpaApplication.class, args);
-
-
     }
 
 }

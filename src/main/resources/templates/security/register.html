@@ -1,0 +1,25 @@
+<html>
+<body>
+<h1 th:text="Register">form</h1>
+<form action="/" th:object="${user}" method="POST" enctype="utf8">
+
+    <div>
+        <label th:text="username">username</label>
+        <input type="text" name="username" placeholder="Username"/>
+    </div>
+    <div>
+        <label th:text="password">password</label>
+        <input type="password" name="password" placeholder="Password"/>
+        <p th:each="error : ${#fields.errors('password')}"
+           th:text="${error}">Validation error</p>
+    </div>
+    <div>
+        <label th:text="confirmpass">confirm</label>
+        <input type="password_confirm" name="password_confirm" placeholder="Confirm Password"/>
+    </div>
+    <button type="submit" th:text="Submit">submit</button>
+</form>
+
+<a th:href="@{/login.html}" th:text="Login">login</a>
+</body>
+</html>
