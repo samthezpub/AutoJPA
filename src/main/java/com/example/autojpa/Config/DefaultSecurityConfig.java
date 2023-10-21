@@ -1,5 +1,7 @@
 package com.example.autojpa.Config;
 
+import com.example.autojpa.AuthenticationManager.CustomAuthenticationManager;
+import com.example.autojpa.Service.impl.UserServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.context.ApplicationEventPublisher;
@@ -7,37 +9,56 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationEventPublisher;
 import org.springframework.security.authentication.DefaultAuthenticationEventPublisher;
-import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
-import org.springframework.security.config.annotation.web.configuration.WebSecurityConfiguration;
 import org.springframework.security.core.userdetails.User;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import org.springframework.security.web.SecurityFilterChain;
 
-import static jakarta.servlet.DispatcherType.ERROR;
-import static jakarta.servlet.DispatcherType.FORWARD;
-import static org.springframework.security.authorization.AuthorizationManagers.allOf;
-
 @EnableWebSecurity
 @Configuration
 public class DefaultSecurityConfig {
 
-//    @Bean
-//    SecurityFilterChain web(HttpSecurity http) throws Exception {
-//        http
-//                // ...
-//                .authorizeHttpRequests(authorize -> authorize
-//                        .dispatcherTypeMatchers(FORWARD, ERROR).permitAll()
-//                        .requestMatchers("/register", "/login").permitAll()
-//                        .requestMatchers("/admin/**").hasRole("ADMIN")
-//                );
-//
-//        return http.build();
-//    }
+    @Autowired
+    private CustomAuthenticationManager authenticationManager;
+
+
+    @Autowired
+    public DefaultSecurityConfig(CustomAuthenticationManager authenticationManager) {
+        this.authenticationManager = authenticationManager;
+    }
+
+    public DefaultSecurityConfig() {
+    }
+
+    @Bean
+    public CustomAuthenticationManager authenticationManager() {
+        return new CustomAuthenticationManager();
+    }
+
+
+    @Bean
+    public SecurityFilterChain defaultSecurityFilterChain(HttpSecurity http) throws Exception {
+        http
+                .authorizeRequests(authorizeRequests ->
+                        authorizeRequests
+                                .requestMatchers("/login", "/login/confirm").permitAll()
+                                .requestMatchers("/register", "/register/confirm").permitAll()
+
+                )
+                .formLogin(login -> login
+                        .loginPage("/login").permitAll()
+                        .successForwardUrl("/") // Перенаправление после успешного входа
+                        .defaultSuccessUrl("/")
+                );
+
+        return http.build();
+
+
+    }
+
 
     @Bean
     @ConditionalOnMissingBean(UserDetailsService.class)

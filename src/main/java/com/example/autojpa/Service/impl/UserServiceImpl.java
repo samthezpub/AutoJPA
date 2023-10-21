@@ -3,9 +3,14 @@ package com.example.autojpa.Service.impl;
 import com.example.autojpa.Entity.UserEntity;
 import com.example.autojpa.Repository.UserRepository;
 import com.example.autojpa.Service.UserService;
-import org.apache.catalina.User;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.User;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -21,6 +26,18 @@ public class UserServiceImpl implements UserService {
         this.userRepository = userRepository;
     }
 
+
+    @Override
+    @Transactional
+    public UserDetails loadUserByUsername(String userName) throws UsernameNotFoundException {
+        UserEntity user = this.userRepository.findUserAccount(userName);
+
+        List<GrantedAuthority> grantedAuthorities = new ArrayList<>();
+        SimpleGrantedAuthority grantedAuthority = new SimpleGrantedAuthority("USER");
+        grantedAuthorities.add(grantedAuthority);
+
+        return new User(user.getUsername(), user.getPassword(), grantedAuthorities);
+    }
 
     @Override
     public void save(UserEntity user) {
