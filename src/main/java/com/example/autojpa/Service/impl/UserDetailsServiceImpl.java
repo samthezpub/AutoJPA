@@ -49,6 +49,6 @@ public class UserDetailsServiceImpl implements UserDetailsService {
                     .map(SimpleGrantedAuthority::new)
                     .collect(Collectors.toList());
         }
-        return new User(currentUser.getUsername(), currentUser.getPassword(), grantList);
+        return new User(currentUser.getUsername(), currentUser.getEncryptedPassword(), grantList);
     }
 }

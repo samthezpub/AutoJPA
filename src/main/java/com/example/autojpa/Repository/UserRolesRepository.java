@@ -10,7 +10,8 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 @Repository
-public interface UserRolesRepository extends JpaRepository<UserEntity, Long> {
-    @Query("SELECT u.roles FROM UserEntity u WHERE u.id=:id")
-    List<String> getRoleNames(@Param("id") Long userId);
+public interface UserRolesRepository extends JpaRepository<RoleEntity, Long> {
+    @Query("SELECT r.name FROM RoleEntity r JOIN r.users u WHERE u.id=:userId")
+    List<String> getRoleNames(@Param("userId") Long userId);
 }
+

@@ -2,6 +2,8 @@ package com.example.autojpa.Entity;
 
 import javax.persistence.*;
 import lombok.Data;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 import java.util.Set;
 
@@ -25,5 +27,10 @@ public class UserEntity {
     private Set<RoleEntity> roles;
 
     public UserEntity() {
+    }
+
+    public String getEncryptedPassword(){
+        PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+        return passwordEncoder.encode(this.password);
     }
 }

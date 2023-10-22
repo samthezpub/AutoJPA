@@ -10,7 +10,7 @@
 <div th:if="${param.logout}">
     You have been logged out.
 </div>
-<form th:action="@{/j_spring_security_check}"  method="post">
+<form th:action="@{/login/confirm}"  method="post">
     <div><label> User Name : <input type="text" name="username"/> </label></div>
     <div><label> Password: <input type="password" name="password"/> </label></div>
     <div><input type="submit" value="Sign In"/></div>
