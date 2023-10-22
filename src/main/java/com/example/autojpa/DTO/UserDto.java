@@ -1,12 +1,10 @@
 package com.example.autojpa.DTO;
 
-import jakarta.annotation.Generated;
-import jakarta.annotation.Nullable;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+
+import com.sun.istack.NotNull;
 import lombok.Data;
-import org.antlr.v4.runtime.misc.NotNull;
+
+import javax.persistence.*;
 
 @Data
 public class UserDto {
@@ -22,4 +20,7 @@ public class UserDto {
 
     @NotNull
     private String confirmPassword;
+
+    public UserDto() {
+    }
 }

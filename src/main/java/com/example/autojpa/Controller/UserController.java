@@ -1,6 +1,5 @@
 package com.example.autojpa.Controller;
 
-import com.example.autojpa.AuthenticationManager.CustomAuthenticationManager;
 import com.example.autojpa.DTO.UserDto;
 import com.example.autojpa.Entity.UserEntity;
 import com.example.autojpa.Exception.ConfirmPasswordException;
@@ -24,12 +23,10 @@ public class UserController {
 
     private UserServiceImpl userService;
 
-    private final CustomAuthenticationManager authenticationManager;
 
     @Autowired
-    public UserController(UserServiceImpl userService, CustomAuthenticationManager authenticationManager) {
+    public UserController(UserServiceImpl userService) {
         this.userService = userService;
-        this.authenticationManager = authenticationManager;
     }
 
 
@@ -41,26 +38,26 @@ public class UserController {
         return "security/login";
     }
 
-    @PostMapping("/login/confirm")
-    public String  loginConfirm(UserEntity user){
-
-        UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken(user.getUsername(), user.getPassword());
-        Authentication authentication = authenticationManager.authenticate(token);
-
-        try {
-            // Попытка аутентификации с использованием CustomAuthenticationManager
-            authentication = authenticationManager.authenticate(authentication);
-
-            // Если аутентификация успешна
-            if (authentication.isAuthenticated()) {
-                SecurityContextHolder.getContext().setAuthentication(authentication);
-                return "index";
-            }
-        } catch (AuthenticationException e) {
-            System.err.println("ОШИБКА");
-        }
-        return "Привет!";
-    }
+//    @PostMapping("/login/confirm")
+//    public String  loginConfirm(UserEntity user){
+//
+//        UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken(user.getUsername(), user.getPassword());
+//        Authentication authentication = authenticationManager.authenticate(token);
+//
+//        try {
+//            // Попытка аутентификации с использованием CustomAuthenticationManager
+//            authentication = authenticationManager.authenticate(authentication);
+//
+//            // Если аутентификация успешна
+//            if (authentication.isAuthenticated()) {
+//                SecurityContextHolder.getContext().setAuthentication(authentication);
+//                return "index";
+//            }
+//        } catch (AuthenticationException e) {
+//            System.err.println("ОШИБКА");
+//        }
+//        return "Привет!";
+//    }
 
     @GetMapping("/register")
     public String showRegistration(WebRequest request, Model model) {

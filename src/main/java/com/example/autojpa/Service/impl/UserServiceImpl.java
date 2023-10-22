@@ -30,7 +30,7 @@ public class UserServiceImpl implements UserService {
     @Override
     @Transactional
     public UserDetails loadUserByUsername(String userName) throws UsernameNotFoundException {
-        UserEntity user = this.userRepository.findUserAccount(userName);
+        UserEntity user = this.userRepository.findUserAccount(userName).get();
 
         List<GrantedAuthority> grantedAuthorities = new ArrayList<>();
         SimpleGrantedAuthority grantedAuthority = new SimpleGrantedAuthority("USER");

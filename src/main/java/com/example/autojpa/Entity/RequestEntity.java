@@ -1,6 +1,6 @@
 package com.example.autojpa.Entity;
 
-import jakarta.persistence.*;
+import javax.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 
