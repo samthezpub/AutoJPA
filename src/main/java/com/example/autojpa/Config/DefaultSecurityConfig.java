@@ -1,6 +1,7 @@
 package com.example.autojpa.Config;
 
 import com.example.autojpa.Service.impl.UserDetailsServiceImpl;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -18,16 +19,14 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 
 @Configuration
 @EnableWebSecurity()
+@RequiredArgsConstructor
 public class DefaultSecurityConfig extends WebSecurityConfigurerAdapter {
 
-    @Autowired
-    private UserDetailsServiceImpl userDetailsService;
+    private final UserDetailsServiceImpl userDetailsService;
 
     @Autowired
     private MyBasicAuthenticationEntryPoint authenticationEntryPoint;
 
-    @Autowired
-    private JwtFilter filter;
 
 
     private final String[] WHITE_LIST = {
@@ -39,25 +38,25 @@ public class DefaultSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     public void configure(HttpSecurity http) throws Exception {
+        http
+                .httpBasic()
+                .authenticationEntryPoint(new MyBasicAuthenticationEntryPoint());
+
         http.cors().and().
                 csrf().disable().
                 authorizeRequests()
-                .antMatchers(WHITE_LIST).permitAll()
-                .anyRequest().authenticated()
-                .and()
-                .headers(headers -> headers.frameOptions().sameOrigin())
-//                .exceptionHandling().authenticationEntryPoint(authenticationEntryPoint)
-//                .and()
-                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
-//        http.addFilterBefore(filter, UsernamePasswordAuthenticationFilter.class);
+                .mvcMatchers(WHITE_LIST).permitAll()
+                .anyRequest().authenticated();
+
 
         http.authorizeRequests().and().formLogin()
-                .loginProcessingUrl("/login/confirm")
+                .loginProcessingUrl("/login")
                 .defaultSuccessUrl("/")
                 .failureUrl("/login?error=true")
                 .usernameParameter("username")
                 .passwordParameter("password").and()
-                .logout().logoutUrl("/logout").logoutSuccessUrl("/j_spring_security_check");
+                .logout().logoutUrl("/logout").logoutSuccessUrl("/login");
+
     }
 
     @Override
@@ -68,14 +67,8 @@ public class DefaultSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Bean
     public PasswordEncoder passwordEncoder() {
-        return new BCryptPasswordEncoder(12);
+        return new BCryptPasswordEncoder();
     }
 
-    @Bean
-    @Override
-    public AuthenticationManager authenticationManagerBean() throws Exception {
-        return super.authenticationManagerBean();
-
-    }
 
 }

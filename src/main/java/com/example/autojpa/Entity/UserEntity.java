@@ -1,36 +1,61 @@
 package com.example.autojpa.Entity;
 
 import javax.persistence.*;
+
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
+import java.util.Objects;
 import java.util.Set;
 
 @Data
 @Entity
+@Table(name="user_entity")
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
 public class UserEntity {
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
-    private Long id;
+    private Long Id;
 
-    @Column(name = "username")
-    private String username;
+    @Column(name = "user_name")
+    private String userName;
 
-    @Column(name = "password")
-    private String password;
+    @Column(name = "encryted_password")
+    private String encrytedPassword;
 
-    @ManyToMany(fetch = FetchType.EAGER)
-    @JoinTable(name = "user_roles", joinColumns = @JoinColumn(name = "user_id"),
-            inverseJoinColumns = @JoinColumn(name = "role_id"))
-    private Set<RoleEntity> roles;
+    @Column(name = "enabled")
+    private boolean enabled;
 
-    public UserEntity() {
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        UserEntity user = (UserEntity) o;
+        return enabled == user.enabled
+                && Objects.equals(Id, user.Id)
+                && Objects.equals(userName, user.userName)
+                && Objects.equals(encrytedPassword, user.encrytedPassword);
     }
 
-    public String getEncryptedPassword(){
-        PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
-        return passwordEncoder.encode(this.password);
+    @Override
+    public int hashCode() {
+        return Objects.hash(Id, userName, encrytedPassword, enabled);
+    }
+
+    @Override
+    public String toString() {
+        return "AppUser{" +
+                "userId=" + Id +
+                ", userName='" + userName + '\'' +
+                ", encrytedPassword='" + encrytedPassword + '\'' +
+                ", enabled=" + enabled +
+                '}';
     }
 }

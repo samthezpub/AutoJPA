@@ -36,7 +36,7 @@ public class UserServiceImpl implements UserService {
         SimpleGrantedAuthority grantedAuthority = new SimpleGrantedAuthority("USER");
         grantedAuthorities.add(grantedAuthority);
 
-        return new User(user.getUsername(), user.getEncryptedPassword(), grantedAuthorities);
+        return new User(user.getUserName(), user.getEncrytedPassword(), grantedAuthorities);
     }
 
     @Override

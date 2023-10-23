@@ -2,7 +2,7 @@ package com.example.autojpa.Service.impl;
 
 import com.example.autojpa.Entity.UserEntity;
 import com.example.autojpa.Repository.UserRepository;
-import com.example.autojpa.Repository.UserRolesRepository;
+import com.example.autojpa.Repository.UserRoleRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,21 +27,29 @@ public class UserDetailsServiceImpl implements UserDetailsService {
     @Autowired
     private UserRepository userRepository;
 
+
     @Autowired
-    private UserRolesRepository userRolesRepository;
+    private UserServiceImpl userService;
+
+    @Autowired
+    private UserRoleRepository userRoleRepository;
 
 
     @Override
     @Transactional
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        UserEntity currentUser = this.userRepository.findUserAccount(username).orElseThrow(RuntimeException::new);
+        UserEntity currentUser = this.userRepository.findUserAccount(username).get();
+        log.error(currentUser.toString());
+        log.error(currentUser.toString());
+        log.error(currentUser.toString());log.error(currentUser.toString());
+
 
         if (currentUser == null){
             log.error("User not found! " + username);
             throw new UsernameNotFoundException("User " + username + " not found in database");
         }
 
-        List<String> roleNames = userRolesRepository.getRoleNames(currentUser.getId());
+        List<String> roleNames = userRoleRepository.getRoleNames(currentUser.getId());
 
         List<GrantedAuthority> grantList = new ArrayList<>();
         if (roleNames!=null){
@@ -49,6 +57,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
                     .map(SimpleGrantedAuthority::new)
                     .collect(Collectors.toList());
         }
-        return new User(currentUser.getUsername(), currentUser.getEncryptedPassword(), grantList);
+        log.error(currentUser.toString());
+        return new User(currentUser.getUserName(), currentUser.getEncrytedPassword(), grantList);
     }
 }
