@@ -17,6 +17,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -38,16 +39,15 @@ public class UserDetailsServiceImpl implements UserDetailsService {
     @Override
     @Transactional
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        UserEntity currentUser = this.userRepository.findUserAccount(username).get();
-        log.error(currentUser.toString());
-        log.error(currentUser.toString());
-        log.error(currentUser.toString());log.error(currentUser.toString());
+        Optional<UserEntity> userOptional = this.userRepository.findUserAccount(username);
 
 
-        if (currentUser == null){
+        if (!userOptional.isPresent()){
             log.error("User not found! " + username);
             throw new UsernameNotFoundException("User " + username + " not found in database");
         }
+
+        UserEntity currentUser = userOptional.get();
 
         List<String> roleNames = userRoleRepository.getRoleNames(currentUser.getId());
 
